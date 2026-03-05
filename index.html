@@ -1,311 +1,476 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Zap, 
-  Layers, 
-  ArrowRight,
-  Menu,
-  ArrowUpRight,
-  Send,
-  Target,
-  MessageCircle,
-  Code,
-  Palette,
-  ShieldCheck,
-  BarChart3
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Основные мета-теги -->
+    <title>Itera Studio — Дизайн и разработка сайтов в стиле Apple</title>
+    <meta name="description" content="Студия Itera: создание эстетичных и быстрых сайтов за 48 часов. Полный цикл разработки через Telegram.">
+    <meta name="keywords" content="разработка сайтов, веб-дизайн, создание лендингов, itera studio, сайт за 48 часов">
+    <meta name="author" content="Itera Studio">
 
-// --- КОНФИГУРАЦИЯ TELEGRAM ---
-const TG_TOKEN = "8696480408:AAFWd3AX_eXsm2R-1ARPzrGX-BXCn1LKjhk"; 
-const TG_CHAT_ID = "1170583322";
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Itera — Цифровая Эстетика 2026">
+    <meta property="og:description" content="Создаем технологичные сайты с коммуникацией в Telegram. Запуск за 48 часов.">
+    <meta property="og:image" content="https://itera.studio/og-image.jpg">
 
-const sendToTelegram = async (username) => {
-  const message = `🚀 Новая заявка\n\nКлиент: ${username}\nСайт: Itera Studio`;
-  const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
-  
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TG_CHAT_ID,
-      text: message,
-      parse_mode: 'HTML'
-    })
-  });
-  return await response.json();
-};
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
 
-// --- МОБИЛЬНАЯ ВЕРСИЯ ---
-const MobileVersion = () => {
-  const [activeTab, setActiveTab] = useState('home');
-  const [username, setUsername] = useState('');
-  const [status, setStatus] = useState('');
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #111111;
+            --text: #ffffff;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --glass: rgba(255, 255, 255, 0.05);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!username) return;
-    setStatus('Отправка...');
-    try {
-      const res = await sendToTelegram(username);
-      if (res.ok) {
-        setStatus('✨ Отправлено!');
-        setUsername('');
-      } else {
-        setStatus('Ошибка API');
-      }
-    } catch (e) {
-      setStatus('Ошибка сети');
-    }
-  };
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  return (
-    <div className="bg-black min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-500/30 flex flex-col">
-      {/* Мягкий фон */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" 
-           style={{ background: 'radial-gradient(circle at 50% 20%, #1a1a1a 0%, #000 100%)' }} />
-      
-      <header className="relative z-20 flex justify-between items-center p-6 pt-8">
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tighter uppercase">Itera</span>
-        </div>
-        <button className="bg-white text-black px-5 py-2.5 rounded-full text-[13px] font-bold shadow-lg active:scale-95 transition-all">
-          Начать проект
-        </button>
-      </header>
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            background: radial-gradient(circle at 50% 20%, #1a1a1a 0%, #000 100%);
+        }
 
-      <main className="relative z-10 px-6 flex-1 flex flex-col items-center text-center pt-12 pb-40">
-        <div className="mb-6">
-          <div className="text-blue-500 font-bold text-[12px] tracking-[0.2em] uppercase mb-4">
-            Цифровая продукция 2026
-          </div>
-          <h1 className="text-[48px] leading-[1.05] font-bold tracking-tighter mb-6">
-            Эстетика Apple <br/>
-            в вашем <br/>
-            бизнесе.
-          </h1>
-        </div>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-        <p className="text-[#888] text-[17px] leading-relaxed max-w-[300px] mb-12 font-light">
-          Разработка высококлассных сайтов и интерфейсов с коммуникацией исключительно в <span className="text-white">Telegram</span>. Быстро. Чисто. Эффективно.
-        </p>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
 
-        <div className="w-full space-y-4 mb-16 max-w-sm">
-          <button className="w-full bg-white text-black py-4.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all shadow-xl">
-            Смотреть работы
-          </button>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input 
-              type="text" 
-              placeholder="@username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-white/5 py-4.5 px-6 rounded-full text-center text-lg focus:border-blue-500 transition-colors outline-none"
-            />
-            <button type="submit" className="w-full bg-[#1c1c1e] text-white py-4.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all">
-              {status || 'Обсудить проект'}
-            </button>
-          </form>
-        </div>
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        {/* Слайдер преимуществ */}
-        <div className="w-screen -mx-6 overflow-x-auto no-scrollbar flex gap-4 px-6 pb-4">
-          {[
-            { icon: Zap, title: "48 часов", desc: "От идеи до деплоя. Скорость — наше преимущество." },
-            { icon: Palette, title: "Эстетика", desc: "Каждый пиксель имеет значение. Дизайн как искусство." },
-            { icon: ShieldCheck, title: "Качество", desc: "Современные технологии и чистый код." }
-          ].map((item, i) => (
-            <div key={i} className="min-w-[260px] p-8 bg-[#0A0A0A] border border-white/5 rounded-[32px] text-left">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 text-blue-500">
-                <item.icon size={24} />
-              </div>
-              <h3 className="font-bold text-xl mb-3">{item.title}</h3>
-              <p className="text-sm text-[#666] leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+        /* Навигация */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass);
+        }
 
-      {/* Нижняя навигация */}
-      <nav className="fixed bottom-8 left-6 right-6 z-50">
-        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-2 rounded-[24px] flex justify-between items-center shadow-2xl">
-          {[
-            { id: 'home', icon: Layers, label: 'Главная' },
-            { id: 'works', icon: Target, label: 'Кейсы' },
-            { id: 'tech', icon: Zap, label: 'Стек' },
-            { id: 'menu', icon: Menu, label: 'Меню' }
-          ].map((item) => (
-            <button key={item.id} onClick={() => setActiveTab(item.id)}
-                    className={`flex-1 flex flex-col items-center py-3 rounded-2xl transition-all ${activeTab === item.id ? 'bg-white/10 text-white' : 'text-[#666]'}`}>
-              <item.icon size={22} />
-              <span className="text-[10px] mt-1.5 font-bold uppercase tracking-tighter">{item.label}</span>
-            </button>
-          ))}
-          <div className="w-14 h-14 bg-white rounded-[20px] flex items-center justify-center ml-2 shadow-lg active:scale-90 transition-transform">
-            <MessageCircle size={26} className="text-black" />
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-};
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-// --- ДЕСКТОПНАЯ ВЕРСИЯ ---
-const DesktopVersion = () => {
-  const [username, setUsername] = useState('');
-  const [status, setStatus] = useState('');
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('Отправка...');
-    try {
-      const res = await sendToTelegram(username);
-      if (res.ok) {
-        setStatus('✨ Заявка отправлена! Скоро напишем.');
-        setUsername('');
-      } else {
-        setStatus('Ошибка отправки');
-      }
-    } catch (e) { setStatus('Ошибка сети'); }
-  };
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 24px 60px;
+        }
 
-  return (
-    <div className="bg-[#000] min-h-screen text-white font-sans selection:bg-blue-600/40" 
-         style={{ background: 'radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000 100%)' }}>
-      
-      <nav className="fixed top-0 w-full z-[1000] py-5 bg-black/50 backdrop-blur-2xl border-b border-white/5">
-        <div className="max-w-[1200px] mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold tracking-tighter">ITERA</a>
-          <a href="#contact" className="bg-white text-black px-5 py-2 rounded-full text-[13px] font-bold hover:opacity-80 transition-opacity">Начать проект</a>
-        </div>
-      </nav>
+        h1 {
+            font-size: clamp(38px, 8vw, 84px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-      {/* Hero */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24">
-        <span className="text-blue-500 uppercase tracking-[0.2em] text-[13px] font-semibold mb-4">Цифровая продукция 2026</span>
-        <h1 className="text-[84px] font-bold leading-[1.05] tracking-tight mb-6 bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-          Эстетика Apple<br/>в вашем бизнесе.
-        </h1>
-        <p className="text-[#86868b] text-2xl max-w-3xl mb-12 font-light leading-relaxed">
-          Разработка высококлассных сайтов и интерфейсов с коммуникацией исключительно в Telegram. Быстро. Чисто. Эффективно.
-        </p>
-        <div className="flex gap-4">
-          <a href="#portfolio" className="bg-white text-black px-9 py-4 rounded-full font-semibold hover:scale-105 transition-transform">Смотреть работы</a>
-          <a href="#contact" className="bg-white/10 backdrop-blur-md text-white px-9 py-4 rounded-full font-semibold hover:bg-white/20 transition-all">Обсудить проект</a>
-        </div>
-      </section>
+        .hero p {
+            font-size: clamp(17px, 3vw, 24px);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
 
-      {/* Bento Grid */}
-      <section className="py-24 max-w-[1200px] mx-auto px-6">
-        <span className="text-blue-500 uppercase tracking-widest text-xs font-bold block mb-4">Преимущества</span>
-        <h2 className="text-5xl font-bold mb-12 tracking-tight">Почему выбирают нас?</h2>
-        <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-7 p-10 bg-white/[0.03] border border-white/5 rounded-[28px] flex flex-col justify-between min-h-[280px] hover:bg-white/[0.05] transition-all">
-             <div className="w-11 h-11 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500"><Palette /></div>
-             <div><h3 className="text-2xl font-bold mb-3">Цифровая эстетика</h3><p className="text-[#86868b]">Мы проектируем каждый пиксель так, чтобы ваш бренд выглядел дорого и надежно. Минимум лишнего — максимум смысла.</p></div>
-          </div>
-          <div className="col-span-5 p-10 bg-white/[0.03] border border-white/5 rounded-[28px] flex flex-col justify-between hover:bg-white/[0.05] transition-all">
-             <div className="w-11 h-11 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500"><Zap /></div>
-             <div><h3 className="text-2xl font-bold mb-3">Скорость работы</h3><p className="text-[#86868b]">Запуск первой версии сайта за 48 часов без потери качества в деталях.</p></div>
-          </div>
-          <div className="col-span-5 p-10 bg-white/[0.03] border border-white/5 rounded-[28px] flex flex-col justify-between min-h-[280px] hover:bg-white/[0.05] transition-all">
-             <div className="w-11 h-11 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500"><MessageCircle /></div>
-             <div><h3 className="text-2xl font-bold mb-3">Telegram First</h3><p className="text-[#86868b]">Прямая связь с менеджером через Telegram для моментального фидбека.</p></div>
-          </div>
-          <div className="col-span-7 p-10 bg-white/[0.03] border border-white/5 rounded-[28px] flex flex-col justify-between hover:bg-white/[0.05] transition-all">
-             <div className="w-11 h-11 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500"><ShieldCheck /></div>
-             <div><h3 className="text-2xl font-bold mb-3">Гарантия качества</h3><p className="text-[#86868b]">Используем современные технологии и чистый код для максимальной производительности.</p></div>
-          </div>
-        </div>
-      </section>
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
+        }
 
-      {/* ПРИМЕРЫ РАБОТ (ПОРТФОЛИО) */}
-      <section id="portfolio" className="py-24 max-w-[1200px] mx-auto px-6">
-        <span className="text-blue-500 uppercase tracking-widest text-xs font-bold block mb-4">Портфолио</span>
-        <h2 className="text-5xl font-bold mb-12 tracking-tight">Примеры работы</h2>
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            background-color: var(--text);
+            color: var(--bg);
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn:active { transform: scale(0.96); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Bento Grid */
+        .section { padding: 80px 0; }
         
-        <div className="grid grid-cols-1 gap-12 max-w-[900px] mx-auto">
-          <a href="https://port1-dusky.vercel.app" target="_blank" rel="noopener noreferrer" 
-             className="group block bg-[#111] border border-white/5 rounded-[32px] overflow-hidden hover:translate-y-[-8px] hover:border-white/10 transition-all duration-500">
-            {/* Browser Mockup */}
-            <div className="bg-[#1c1c1e] border-b border-white/5">
-              <div className="flex items-center gap-1.5 p-4">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></div>
-              </div>
-              <div className="aspect-video relative overflow-hidden bg-black">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10"></div>
-                <iframe 
-                  src="https://port1-dusky.vercel.app" 
-                  title="Portfolio 1"
-                  className="w-full h-full border-none pointer-events-none scale-[1.01]"
-                  scrolling="no"
-                />
-              </div>
-            </div>
-            {/* Info */}
-            <div className="p-10 flex justify-between items-center">
-              <div>
-                <h3 className="text-3xl font-bold mb-2">Vercel Project One</h3>
-                <p className="text-[#86868b] text-lg">Интерактивный интерфейс с адаптивной версткой и плавной анимацией.</p>
-              </div>
-              <div className="flex items-center gap-2 text-blue-500 font-medium text-lg">
-                Посмотреть <ArrowUpRight size={24} />
-              </div>
-            </div>
-          </a>
+        .section-tag {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        h2 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 40px; letter-spacing: -0.02em; font-weight: 700; }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        .bento-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass);
+            border-radius: 24px;
+            padding: 32px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 260px;
+        }
+
+        .bento-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .bento-item h3 { font-size: 22px; margin-bottom: 8px; }
+        .bento-item p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+
+        .icon-box {
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 113, 227, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: auto;
+            color: var(--accent);
+        }
+
+        /* Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background: var(--surface);
+            border-radius: 32px;
+            border: 1px solid var(--glass);
+            overflow: hidden;
+            transition: var(--transition);
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .browser-mockup {
+            background: #1c1c1e;
+            aspect-ratio: 16 / 10;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .browser-header {
+            height: 32px;
+            background: #2c2c2e;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 6px;
+        }
+
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .browser-content {
+            height: 100%;
+            background: #000;
+        }
+
+        .browser-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .portfolio-info { padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .portfolio-info-text h3 { font-size: 24px; margin-bottom: 4px; }
+        .portfolio-info-text p { color: var(--text-secondary); font-size: 16px; }
+
+        /* CTA Section */
+        .cta-section { padding: 80px 0; text-align: center; }
+        .glass-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass);
+            padding: 48px 24px;
+            border-radius: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass);
+            border-radius: 16px;
+            color: #fff;
+            margin-bottom: 16px;
+            font-size: 17px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+
+        footer { padding: 40px 0; text-align: center; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--glass); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero-btns { flex-direction: column; }
+            .hero { padding-top: 80px; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-item { grid-column: span 1 !important; min-height: 220px; padding: 24px; }
+            .portfolio-info { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; }
+            .portfolio-info-text h3 { font-size: 20px; }
+            .portfolio-info-text p { font-size: 14px; }
+            .nav-content .btn { display: none; } /* Скрываем кнопку в шапке на малых экранах */
+            h1 { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">ITERA</a>
+            <a href="#contact" class="btn" style="padding: 10px 20px; font-size: 13px;">Начать проект</a>
         </div>
-      </section>
+    </nav>
 
-      {/* Contact */}
-      <section id="contact" className="py-24 px-6 text-center">
-        <div className="max-w-xl mx-auto p-12 bg-gradient-to-b from-white/5 to-transparent border border-white/5 rounded-[40px] backdrop-blur-3xl">
-          <h2 className="text-4xl font-bold mb-4">Начнем обсуждение?</h2>
-          <p className="text-[#86868b] mb-8 font-light">Оставьте свой ник, и мы свяжемся с вами в Telegram.</p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input 
-              type="text" 
-              placeholder="@username" 
-              required
-              className="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white text-center text-lg focus:border-blue-500 transition-colors outline-none"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <button type="submit" className="w-full p-5 bg-blue-600 text-white rounded-2xl font-bold hover:opacity-90 active:scale-[0.98] transition-all">Отправить запрос</button>
-          </form>
-          {status && <p className="mt-5 text-sm font-medium" style={{color: status.includes('✨') ? '#4ade80' : '#f87171'}}>{status}</p>}
+    <section class="hero container">
+        <span class="section-tag reveal">Цифровая продукция 2026</span>
+        <h1 class="reveal">Эстетика Apple<br>в вашем бизнесе.</h1>
+        <p class="reveal">Разработка высококлассных сайтов и интерфейсов с коммуникацией исключительно в Telegram. Быстро. Чисто. Эффективно.</p>
+        <div class="reveal hero-btns">
+            <a href="#portfolio" class="btn">Смотреть работы</a>
+            <a href="#contact" class="btn btn-secondary">Обсудить проект</a>
         </div>
-      </section>
+    </section>
 
-      <footer className="py-10 border-t border-white/5 text-center text-[#86868b] text-sm font-light">
-        <div className="container">&copy; 2026 Itera Studio. Качество без компромиссов.</div>
-      </footer>
-    </div>
-  );
-};
+    <!-- Преимущества -->
+    <section class="section container">
+        <span class="section-tag reveal">Преимущества</span>
+        <h2 class="reveal">Почему выбирают нас?</h2>
+        <div class="bento-grid">
+            <div class="bento-item reveal" style="grid-column: span 7;">
+                <div class="icon-box"><i data-lucide="palette"></i></div>
+                <div>
+                    <h3>Цифровая эстетика</h3>
+                    <p>Мы проектируем каждый пиксель так, чтобы ваш бренд выглядел дорого и надежно. Минимум лишнего — максимум смысла.</p>
+                </div>
+            </div>
+            <div class="bento-item reveal" style="grid-column: span 5;">
+                <div class="icon-box"><i data-lucide="zap"></i></div>
+                <div>
+                    <h3>Скорость работы</h3>
+                    <p>Запуск первой версии сайта за 48 часов без потери качества в деталях.</p>
+                </div>
+            </div>
+            <div class="bento-item reveal" style="grid-column: span 5;">
+                <div class="icon-box"><i data-lucide="message-square"></i></div>
+                <div>
+                    <h3>Telegram First</h3>
+                    <p>Прямая связь с менеджером через telegram для моментальных правок.</p>
+                </div>
+            </div>
+            <div class="bento-item reveal" style="grid-column: span 7;">
+                <div class="icon-box"><i data-lucide="shield-check"></i></div>
+                <div>
+                    <h3>Гарантия качества</h3>
+                    <p>Используем современные технологии и чистый код для максимальной скорости загрузки.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// --- ОСНОВНОЙ КОМПОНЕНТ ---
-const App = () => {
-  const [isMobile, setIsMobile] = useState(false);
+    <!-- Примеры работы -->
+    <section class="section container" id="portfolio">
+        <span class="section-tag reveal">Портфолио</span>
+        <h2 class="reveal">Примеры работы</h2>
+        <div class="portfolio-grid">
+            <a href="https://port1-dusky.vercel.app" target="_blank" class="portfolio-card reveal">
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    </div>
+                    <div class="browser-content">
+                        <iframe src="https://port1-dusky.vercel.app" scrolling="no"></iframe>
+                    </div>
+                </div>
+                <div class="portfolio-info">
+                    <div class="portfolio-info-text">
+                        <h3>Vercel Project One</h3>
+                        <p>Адаптивная верстка и плавная анимация.</p>
+                    </div>
+                    <div style="color: var(--accent); display: flex; align-items: center; gap: 4px; font-weight: 600;">
+                        Открыть <i data-lucide="arrow-up-right" size="20"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
 
-  useEffect(() => {
-    const checkViewport = () => setIsMobile(window.innerWidth < 768);
-    checkViewport();
-    window.addEventListener('resize', checkViewport);
-    return () => window.removeEventListener('resize', checkViewport);
-  }, []);
+    <!-- Контакты -->
+    <section class="cta-section container" id="contact">
+        <div class="glass-card reveal">
+            <h2>Начнем обсуждение?</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 24px; font-weight: 300;">Оставьте свой ник, и мы свяжемся с вами в Telegram.</p>
+            <form id="leadForm">
+                <input type="text" id="user_tg" placeholder="@username" required>
+                <button type="submit" id="submitBtn" class="btn" style="background: var(--accent); color: white; width: 100%;">Отправить запрос</button>
+            </form>
+            <p id="formStatus" style="margin-top: 20px; font-size: 14px; font-weight: 500;"></p>
+        </div>
+    </section>
 
-  return (
-    <>
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        html { scroll-behavior: smooth; }
-        body { margin: 0; background: black; }
-      `}</style>
-      {isMobile ? <MobileVersion /> : <DesktopVersion />}
-    </>
-  );
-};
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Itera Studio. Качество без компромиссов.</p>
+        </div>
+    </footer>
 
-export default App;
+    <script>
+        // Инициализация иконок
+        lucide.createIcons();
+
+        // --- НАСТРОЙКИ TELEGRAM ---
+        const TG_TOKEN = "8696480408:AAFWd3AX_eXsm2R-1ARPzrGX-BXCn1LKjhk"; 
+        const TG_CHAT_ID = "1170583322"; 
+
+        const form = document.getElementById('leadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('formStatus');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('user_tg').value;
+            const message = `🚀 Новая заявка\n\nКлиент: ${username}\nСайт: Itera Studio`;
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Отправка...';
+            statusMsg.innerText = '';
+            
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TG_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.ok) {
+                    statusMsg.innerText = '✨ Заявка отправлена! Скоро напишем.';
+                    statusMsg.style.color = '#4ade80';
+                    form.reset();
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch (err) {
+                statusMsg.innerText = 'Ошибка отправки. Попробуйте позже.';
+                statusMsg.style.color = '#f87171';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Отправить запрос';
+            }
+        });
+
+        // Анимации прокрутки
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
