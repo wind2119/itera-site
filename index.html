@@ -58,77 +58,76 @@ const MobileVersion = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-500/30">
-      <div className="fixed inset-0 z-0 opacity-10 pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#1A1A1A 1px, transparent 1px), linear-gradient(90deg, #1A1A1A 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+    <div className="bg-black min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-500/30 flex flex-col">
+      {/* Мягкий фон */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" 
+           style={{ background: 'radial-gradient(circle at 50% 20%, #1a1a1a 0%, #000 100%)' }} />
       
       <header className="relative z-20 flex justify-between items-center p-6 pt-8">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
-            <span className="text-black font-bold text-[10px]">IT</span>
-          </div>
-          <span className="text-lg font-bold tracking-tight uppercase">Itera</span>
+          <span className="text-xl font-bold tracking-tighter uppercase">Itera</span>
         </div>
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-mono text-blue-400 uppercase tracking-widest">
-          2026 Edition
-        </div>
+        <button className="bg-white text-black px-5 py-2.5 rounded-full text-[13px] font-bold shadow-lg active:scale-95 transition-all">
+          Начать проект
+        </button>
       </header>
 
-      <main className="relative z-10 px-6 pt-12 pb-40">
-        <div className="space-y-2 mb-6">
-          <div className="flex items-center gap-2 text-blue-500 font-mono text-[10px] tracking-[0.3em] uppercase">
-            <span className="w-8 h-[1px] bg-blue-500"></span>
-            Цифровая продукция
+      <main className="relative z-10 px-6 flex-1 flex flex-col items-center text-center pt-12 pb-40">
+        <div className="mb-6">
+          <div className="text-blue-500 font-bold text-[12px] tracking-[0.2em] uppercase mb-4">
+            Цифровая продукция 2026
           </div>
-          <h1 className="text-[44px] leading-[0.95] font-bold tracking-tighter">
-            Эстетика <br/>
-            <span className="text-neutral-500">Apple</span> в вашем <br/>
+          <h1 className="text-[48px] leading-[1.05] font-bold tracking-tighter mb-6">
+            Эстетика Apple <br/>
+            в вашем <br/>
             бизнесе.
           </h1>
         </div>
 
-        <p className="text-[#888] text-[15px] leading-relaxed max-w-[280px] mb-12 font-light">
-          Проектируем высококлассные интерфейсы с коммуникацией в <span className="text-white">Telegram</span>. Чистый код, запредельная скорость.
+        <p className="text-[#888] text-[17px] leading-relaxed max-w-[300px] mb-12 font-light">
+          Разработка высококлассных сайтов и интерфейсов с коммуникацией исключительно в <span className="text-white">Telegram</span>. Быстро. Чисто. Эффективно.
         </p>
 
-        <div className="space-y-3 mb-16">
-          <button className="w-full bg-white text-black py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-all">
-            Смотреть работы <ArrowUpRight size={18} />
+        <div className="w-full space-y-4 mb-16 max-w-sm">
+          <button className="w-full bg-white text-black py-4.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all shadow-xl">
+            Смотреть работы
           </button>
           
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input 
               type="text" 
               placeholder="@username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 py-4 px-6 rounded-2xl text-center focus:border-blue-500 transition-colors"
+              className="w-full bg-[#1a1a1a] border border-white/5 py-4.5 px-6 rounded-full text-center text-lg focus:border-blue-500 transition-colors outline-none"
             />
-            <button type="submit" className="w-full bg-blue-600 text-white py-4 rounded-2xl font-medium flex items-center justify-center gap-2 active:scale-95 transition-all">
-              {status || 'Обсудить проект'} <Send size={16} />
+            <button type="submit" className="w-full bg-[#1c1c1e] text-white py-4.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all">
+              {status || 'Обсудить проект'}
             </button>
           </form>
         </div>
 
-        <div className="mt-8 -mx-6 overflow-x-auto no-scrollbar flex gap-4 px-6 pb-4">
+        {/* Слайдер преимуществ */}
+        <div className="w-screen -mx-6 overflow-x-auto no-scrollbar flex gap-4 px-6 pb-4">
           {[
             { icon: Zap, title: "48 часов", desc: "От идеи до деплоя. Скорость — наше преимущество." },
             { icon: Palette, title: "Эстетика", desc: "Каждый пиксель имеет значение. Дизайн как искусство." },
             { icon: ShieldCheck, title: "Качество", desc: "Современные технологии и чистый код." }
           ].map((item, i) => (
-            <div key={i} className="min-w-[240px] p-6 bg-[#0A0A0A] border border-[#1A1A1A] rounded-3xl">
-              <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-500">
-                <item.icon size={20} />
+            <div key={i} className="min-w-[260px] p-8 bg-[#0A0A0A] border border-white/5 rounded-[32px] text-left">
+              <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 text-blue-500">
+                <item.icon size={24} />
               </div>
-              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-              <p className="text-xs text-[#666] leading-relaxed">{item.desc}</p>
+              <h3 className="font-bold text-xl mb-3">{item.title}</h3>
+              <p className="text-sm text-[#666] leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
       </main>
 
-      <nav className="fixed bottom-6 left-6 right-6 z-50">
-        <div className="bg-black/60 backdrop-blur-xl border border-white/10 p-2 rounded-3xl flex justify-between items-center shadow-2xl">
+      {/* Нижняя навигация */}
+      <nav className="fixed bottom-8 left-6 right-6 z-50">
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-2 rounded-[24px] flex justify-between items-center shadow-2xl">
           {[
             { id: 'home', icon: Layers, label: 'Главная' },
             { id: 'works', icon: Target, label: 'Кейсы' },
@@ -136,13 +135,13 @@ const MobileVersion = () => {
             { id: 'menu', icon: Menu, label: 'Меню' }
           ].map((item) => (
             <button key={item.id} onClick={() => setActiveTab(item.id)}
-                    className={`flex-1 flex flex-col items-center py-2 rounded-2xl transition-all ${activeTab === item.id ? 'bg-white/10 text-white' : 'text-[#666]'}`}>
-              <item.icon size={20} />
-              <span className="text-[9px] mt-1 font-medium uppercase tracking-tighter">{item.label}</span>
+                    className={`flex-1 flex flex-col items-center py-3 rounded-2xl transition-all ${activeTab === item.id ? 'bg-white/10 text-white' : 'text-[#666]'}`}>
+              <item.icon size={22} />
+              <span className="text-[10px] mt-1.5 font-bold uppercase tracking-tighter">{item.label}</span>
             </button>
           ))}
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center ml-2 shadow-lg active:scale-90 transition-transform">
-            <MessageCircle size={22} className="text-black" />
+          <div className="w-14 h-14 bg-white rounded-[20px] flex items-center justify-center ml-2 shadow-lg active:scale-90 transition-transform">
+            <MessageCircle size={26} className="text-black" />
           </div>
         </div>
       </nav>
