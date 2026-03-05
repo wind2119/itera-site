@@ -134,6 +134,7 @@
             transition: var(--transition);
             cursor: pointer;
             border: none;
+            text-align: center;
         }
 
         .btn:hover { transform: scale(1.02); opacity: 0.9; }
@@ -201,8 +202,10 @@
         /* Portfolio */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .portfolio-card {
@@ -213,11 +216,18 @@
             transition: var(--transition);
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .browser-mockup {
             background: #1c1c1e;
-            aspect-ratio: 16 / 10;
+            aspect-ratio: 16 / 9;
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid var(--glass);
@@ -230,6 +240,8 @@
             align-items: center;
             padding: 0 12px;
             gap: 6px;
+            z-index: 2;
+            position: relative;
         }
 
         .dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -238,22 +250,32 @@
         .dot-green { background: #27c93f; }
 
         .browser-content {
-            padding: 15px;
             height: 100%;
             background: #000;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
-        .portfolio-info { padding: 28px; }
-        .portfolio-info h3 { font-size: 22px; margin-bottom: 6px; }
-        .portfolio-info p { color: var(--text-secondary); font-size: 15px; }
+        .browser-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none; /* Чтобы карточка была кликабельной целиком */
+        }
 
-        /* Mockup Visuals */
-        .mock-hero { height: 40%; background: linear-gradient(90deg, #1a1a1a, #0a0a0a); border-radius: 8px; }
-        .mock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; height: 40%; }
-        .mock-item { background: #111; border-radius: 6px; }
+        .portfolio-info { padding: 32px; display: flex; justify-content: space-between; align-items: center; }
+        .portfolio-info-text h3 { font-size: 24px; margin-bottom: 4px; }
+        .portfolio-info-text p { color: var(--text-secondary); font-size: 16px; }
+
+        .view-link {
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
 
         /* CTA Section */
         .cta-section { padding: 100px 0; text-align: center; }
@@ -349,47 +371,32 @@
         </div>
     </section>
 
-    <!-- Портфолио -->
+    <!-- Примеры работы -->
     <section class="section container" id="portfolio">
-        <span class="section-tag reveal">Кейсы</span>
-        <h2 class="reveal">Наши последние запуски</h2>
+        <span class="section-tag reveal">Портфолио</span>
+        <h2 class="reveal">Примеры работы</h2>
         <div class="portfolio-grid">
-            <div class="portfolio-card reveal">
+            <a href="https://port1-dusky.vercel.app" target="_blank" class="portfolio-card reveal">
                 <div class="browser-mockup">
                     <div class="browser-header">
                         <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
                     </div>
                     <div class="browser-content">
-                        <div class="mock-hero"></div>
-                        <div class="mock-grid">
-                            <div class="mock-item"></div><div class="mock-item"></div>
-                        </div>
+                        <!-- Превью через iframe для интерактивности или скриншот -->
+                        <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)); z-index: 1;"></div>
+                        <iframe src="https://port1-dusky.vercel.app" scrolling="no"></iframe>
                     </div>
                 </div>
                 <div class="portfolio-info">
-                    <h3>Lumina Wear</h3>
-                    <p>Премиальный магазин одежды с фокусом на минимализм.</p>
-                </div>
-            </div>
-            
-            <div class="portfolio-card reveal">
-                <div class="browser-mockup">
-                    <div class="browser-header">
-                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    <div class="portfolio-info-text">
+                        <h3>Vercel Project One</h3>
+                        <p>Интерактивный интерфейс с адаптивной версткой и плавной анимацией.</p>
                     </div>
-                    <div class="browser-content">
-                        <div style="height: 100%; border: 1px solid #222; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 10px;">
-                            <div style="height: 15px; width: 60%; background: #222; border-radius: 4px;"></div>
-                            <div style="height: 60%; width: 100%; background: #111; border-radius: 4px;"></div>
-                            <div style="height: 15px; width: 80%; background: #222; border-radius: 4px;"></div>
-                        </div>
+                    <div class="view-link">
+                        Посмотреть <i data-lucide="arrow-up-right"></i>
                     </div>
                 </div>
-                <div class="portfolio-info">
-                    <h3>Nexus Platform</h3>
-                    <p>Dashboard для управления крипто-активами и аналитикой.</p>
-                </div>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -433,16 +440,14 @@
             submitBtn.innerText = 'Отправка...';
             statusMsg.innerText = '';
             
-            // Используем URLSearchParams для более надежной отправки в браузере
             const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
             const params = {
                 chat_id: TG_CHAT_ID,
                 text: message,
-                parse_mode: 'HTML' // Переключил на HTML для простоты
+                parse_mode: 'HTML'
             };
 
             try {
-                // Пытаемся отправить запрос
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -463,7 +468,7 @@
                 }
             } catch (err) {
                 console.error("Network or Form Error:", err);
-                statusMsg.innerText = 'Ошибка: Проверьте, запущен ли бот (@ваш_бот) и написали ли вы ему /start';
+                statusMsg.innerText = 'Ошибка отправки. Попробуйте позже.';
                 statusMsg.style.color = '#f87171';
             } finally {
                 submitBtn.disabled = false;
