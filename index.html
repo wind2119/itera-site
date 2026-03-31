@@ -4,8 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Базовое SEO -->
     <title>Itera Studio — Дизайн и разработка сайтов в стиле Apple</title>
-    <meta name="description" content="Студия Itera: создание эстетичных и быстрых сайтов за 48 часов. Полный цикл разработки через Telegram. Эстетика Apple для вашего бизнеса.">
+    <meta name="description" content="Студия Itera: создание эстетичных и быстрых сайтов с премиальным дизайном. Разработка за 48 часов. Прямая связь в Telegram.">
+    <meta name="keywords" content="разработка сайтов, веб-дизайн, apple style, минимализм, создание лендингов, быстро, дизайн интерфейсов">
+    <meta name="author" content="Itera Studio">
+    <link rel="canonical" href="https://itera.studio"> <!-- Замените на ваш реальный домен -->
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itera.studio">
+    <meta property="og:title" content="Itera Studio — Эстетика Apple в вашем бизнесе">
+    <meta property="og:description" content="Запуск первой версии сайта за 48 часов. Премиальный дизайн и высокая скорость работы.">
+    <meta property="og:image" content="https://itera.studio/og-image.jpg"> <!-- Путь к картинке для превью -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Itera Studio — Дизайн и разработка">
+    <meta property="twitter:description" content="Премиальные сайты с коммуникацией через Telegram. Чистота форм и функциональность.">
+
+    <!-- Структурированные данные (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Itera Studio",
+      "url": "https://itera.studio",
+      "logo": "https://itera.studio/logo.png",
+      "description": "Студия дизайна и разработки высококлассных сайтов в стиле Apple.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://t.me/your_account"
+      }
+    }
+    </script>
     
     <!-- Иконка -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
@@ -131,7 +164,7 @@
         }
 
         h1 {
-            font-size: clamp(48px, 10vw, 96px);
+            font-size: clamp(40px, 10vw, 96px);
             font-weight: 700;
             line-height: 1.02;
             letter-spacing: -0.04em;
@@ -142,7 +175,7 @@
         }
 
         .hero p {
-            font-size: clamp(20px, 4vw, 26px);
+            font-size: clamp(18px, 4vw, 26px);
             color: var(--text-secondary);
             max-width: 720px;
             margin-bottom: 50px;
@@ -165,6 +198,9 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -190,7 +226,7 @@
         }
 
         /* Bento */
-        .section-header { margin-bottom: 60px; text-align: center; }
+        .section-header { margin: 120px 0 60px; text-align: center; }
         .section-header h2 { font-size: clamp(32px, 6vw, 56px); font-weight: 700; letter-spacing: -0.03em; }
 
         .bento-grid {
@@ -226,9 +262,9 @@
             padding-bottom: 40px;
         }
 
-        /* НОВОЕ ПОРТФОЛИО */
+        /* ПОРТФОЛИО */
         .portfolio-wrapper {
-            margin: 80px 0;
+            margin: 40px 0 80px;
             padding-bottom: 60px;
         }
 
@@ -289,7 +325,7 @@
             align-items: flex-end;
         }
 
-        .project-meta h3 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .project-meta h3 { font-size: clamp(24px, 4vw, 32px); font-weight: 700; margin-bottom: 8px; }
         .project-meta p { color: var(--text-secondary); font-size: 18px; }
 
         .arrow-circle {
@@ -317,12 +353,14 @@
             text-align: center;
         }
 
-        .input-wrapper {
-            position: relative;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             margin: 40px 0 20px;
         }
 
-        input {
+        input, textarea {
             width: 100%;
             padding: 24px;
             background: rgba(255,255,255,0.05);
@@ -330,14 +368,24 @@
             border-radius: 20px;
             color: #fff;
             font-size: 18px;
-            text-align: center;
+            text-align: left;
             transition: all 0.3s;
+            font-family: inherit;
         }
 
-        input:focus {
+        input { text-align: center; }
+
+        textarea {
+            min-height: 120px;
+            resize: none;
+            text-align: left;
+        }
+
+        input:focus, textarea:focus {
             background: rgba(255,255,255,0.08);
             border-color: var(--accent);
             box-shadow: 0 0 0 4px var(--accent-glow);
+            outline: none;
         }
 
         footer {
@@ -348,11 +396,23 @@
             font-size: 15px;
         }
 
+        /* Accessibility: скрытые заголовки */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .bento-grid { grid-template-columns: 1fr; }
             .bento-item { grid-column: span 1 !important; }
-            .hero h1 { font-size: 48px; }
+            .hero h1 { font-size: 44px; }
             .project-preview { height: 300px; }
             .project-content { padding: 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
             .arrow-circle { width: 50px; height: 50px; }
@@ -361,134 +421,137 @@
 </head>
 <body>
 
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
 
     <nav>
         <div class="container nav-content">
-            <a href="#" class="logo">
-                <span>✨</span> ITERA
+            <a href="#" class="logo" aria-label="Itera Studio Home">
+                <span aria-hidden="true">✨</span> ITERA
             </a>
             <a href="#contact" class="btn btn-primary" style="padding: 8px 20px; font-size: 14px;">Старт</a>
         </div>
     </nav>
 
     <main>
-        <!-- Hero -->
-        <section class="hero container">
-            <span class="tag reveal">Цифровая продукция 2026</span>
+        <!-- Hero Section -->
+        <header class="hero container">
+            <span class="tag reveal">Студия разработки 2026</span>
             <h1 class="reveal">Эстетика Apple<br>в вашем бизнесе.</h1>
-            <p class="reveal">Разработка высококлассных сайтов и интерфейсов с коммуникацией исключительно в Telegram. Быстро. Чисто. Эффективно.</p>
+            <p class="reveal">Профессиональное проектирование и разработка интерфейсов с упором на минимализм. Весь процесс — в одном окне Telegram.</p>
             <div class="btn-group reveal">
-                <a href="#portfolio" class="btn btn-primary">Смотреть работы</a>
+                <a href="#portfolio" class="btn btn-primary">Посмотреть кейсы</a>
                 <a href="#contact" class="btn btn-secondary">Обсудить проект</a>
             </div>
-        </section>
+        </header>
 
-        <!-- Методология -->
-        <section class="container section">
+        <!-- Features Section -->
+        <section class="container" id="features">
             <div class="section-header reveal">
-                <span class="tag">Преимущества</span>
-                <h2>Почему выбирают нас?</h2>
+                <span class="tag">Наши ценности</span>
+                <h2>Почему именно мы?</h2>
             </div>
             <div class="bento-grid">
-                <div class="bento-item reveal" style="grid-column: span 8;">
-                    <div class="icon"><i data-lucide="palette" size="32"></i></div>
+                <article class="bento-item reveal" style="grid-column: span 8;">
+                    <div class="icon"><i data-lucide="palette" size="32" aria-hidden="true"></i></div>
                     <h3>Цифровая эстетика</h3>
-                    <p>Мы проектируем каждый пиксель так, чтобы ваш бренд выглядел дорого и надежно. Минимум лишнего — максимум смысла.</p>
-                </div>
-                <div class="bento-item reveal" style="grid-column: span 4;">
-                    <div class="icon"><i data-lucide="zap" size="32"></i></div>
+                    <p>Мы создаем дизайн, который не просто выглядит красиво, но и внушает доверие с первого клика. Используем принципы Human Interface Guidelines.</p>
+                </article>
+                <article class="bento-item reveal" style="grid-column: span 4;">
+                    <div class="icon"><i data-lucide="zap" size="32" aria-hidden="true"></i></div>
                     <h3>Скорость</h3>
-                    <p>Запуск первой версии сайта за 48 часов без потери качества.</p>
-                </div>
-                <div class="bento-item reveal" style="grid-column: span 4;">
-                    <div class="icon"><i data-lucide="message-circle" size="32"></i></div>
+                    <p>Рабочий прототип и дизайн-концепция за 48 часов. Никакой бюрократии.</p>
+                </article>
+                <article class="bento-item reveal" style="grid-column: span 4;">
+                    <div class="icon"><i data-lucide="message-circle" size="32" aria-hidden="true"></i></div>
                     <h3>Telegram First</h3>
-                    <p>Прямая связь через Telegram. Без лишних писем и звонков.</p>
-                </div>
-                <div class="bento-item reveal" style="grid-column: span 8;">
-                    <div class="icon"><i data-lucide="shield-check" size="32"></i></div>
-                    <h3>Гарантия качества</h3>
-                    <p>Используем передовые технологии для идеальной работы на всех устройствах, обеспечивая безупречный пользовательский опыт.</p>
-                </div>
+                    <p>Мгновенная обратная связь. Обсуждение и согласование в удобном мессенджере.</p>
+                </article>
+                <article class="bento-item reveal" style="grid-column: span 8;">
+                    <div class="icon"><i data-lucide="shield-check" size="32" aria-hidden="true"></i></div>
+                    <h3>Безупречная работа</h3>
+                    <p>Сайты адаптированы под все устройства Apple и Android, обеспечивая плавность интерфейса и быстрый отклик.</p>
+                </article>
             </div>
         </section>
 
-        <!-- Портфолио -->
-        <section id="portfolio" class="section">
+        <!-- Portfolio Section -->
+        <section id="portfolio">
             <div class="container section-header reveal">
                 <span class="tag">Портфолио</span>
-                <h2>Наши последние работы</h2>
+                <h2>Наши кейсы</h2>
             </div>
             
             <div class="portfolio-wrapper">
                 <div class="portfolio-scroller">
-                    <!-- Проект 1 -->
-                    <div class="project-card reveal" style="margin-left: max(24px, calc((100vw - 1100px) / 2));">
-                        <a href="https://port1-dusky.vercel.app" target="_blank">
+                    <!-- Project Card 1 -->
+                    <article class="project-card reveal" style="margin-left: max(24px, calc((100vw - 1100px) / 2));">
+                        <a href="https://port1-dusky.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Открыть проект Rezidence">
                             <div class="project-preview">
-                                <iframe src="https://port1-dusky.vercel.app" loading="lazy"></iframe>
+                                <iframe src="https://port1-dusky.vercel.app" loading="lazy" title="Rezidence Project Preview"></iframe>
                                 <div class="project-overlay"></div>
                             </div>
                             <div class="project-content">
                                 <div class="project-meta">
                                     <h3>Rezidence</h3>
-                                    <p>Интерактивный интерфейс и плавная анимация.</p>
+                                    <p>Интерактивная архитектурная платформа.</p>
                                 </div>
                                 <div class="arrow-circle">
-                                    <i data-lucide="arrow-right" size="28"></i>
+                                    <i data-lucide="arrow-right" size="28" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </article>
 
-                    <!-- Проект 2 -->
-                    <div class="project-card reveal">
-                        <a href="https://port2-gilt.vercel.app" target="_blank">
+                    <!-- Project Card 2 -->
+                    <article class="project-card reveal">
+                        <a href="https://port2-gilt.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Открыть проект Digital K">
                             <div class="project-preview">
-                                <iframe src="https://port2-gilt.vercel.app" loading="lazy"></iframe>
+                                <iframe src="https://port2-gilt.vercel.app" loading="lazy" title="Digital K Project Preview"></iframe>
                                 <div class="project-overlay"></div>
                             </div>
                             <div class="project-content">
                                 <div class="project-meta">
                                     <h3>Digital K</h3>
-                                    <p>Минималистичное решение и чистота форм.</p>
+                                    <p>Концептуальный цифровой брендинг.</p>
                                 </div>
                                 <div class="arrow-circle">
-                                    <i data-lucide="arrow-right" size="28"></i>
+                                    <i data-lucide="arrow-right" size="28" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </article>
 
-                    <!-- Заглушка для красоты скролла -->
-                    <div style="flex: 0 0 24px;"></div>
+                    <div style="flex: 0 0 24px;" aria-hidden="true"></div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA -->
+        <!-- Contact Section -->
         <section id="contact" class="container">
             <div class="contact-card reveal">
-                <span class="tag">Контакт</span>
-                <h2>Начнем обсуждение?</h2>
-                <p style="color: var(--text-secondary); margin-top: 16px;">Оставьте свой ник, и мы свяжемся с вами в Telegram для оценки проекта.</p>
+                <span class="tag">Связь</span>
+                <h2>Есть идея?</h2>
+                <p style="color: var(--text-secondary); margin-top: 16px;">Напишите о вашей задаче, и мы свяжемся с вами для детального обсуждения.</p>
                 
                 <form id="leadForm">
-                    <div class="input-wrapper">
-                        <input type="text" id="user_tg" placeholder="@username" required>
+                    <div class="input-group">
+                        <label for="user_tg" class="sr-only">Ваш ник в Telegram</label>
+                        <input type="text" id="user_tg" placeholder="@ваш_ник_в_телеграм" required aria-required="true">
+                        
+                        <label for="project_idea" class="sr-only">Описание проекта</label>
+                        <textarea id="project_idea" placeholder="Опишите вашу идею или бизнес..." required aria-required="true"></textarea>
                     </div>
                     <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; padding: 20px;">Отправить запрос</button>
                 </form>
-                <p id="formStatus" style="margin-top: 20px; font-size: 15px; min-height: 20px;"></p>
+                <p id="formStatus" role="status" aria-live="polite" style="margin-top: 20px; font-size: 15px; min-height: 20px;"></p>
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
-            <p>&copy; 2026 Itera Studio. Качество без компромиссов.</p>
+            <p>&copy; 2026 Itera Studio. Разработка с характером.</p>
         </div>
     </footer>
 
@@ -506,7 +569,9 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('user_tg').value;
-            const message = `🚀 <b>Новая заявка</b>\n\n<b>Клиент:</b> ${username}\n<b>Сайт:</b> Itera Premium v2`;
+            const idea = document.getElementById('project_idea').value;
+            
+            const message = `🚀 <b>Новая заявка</b>\n\n<b>Клиент:</b> ${username}\n<b>Идея:</b> ${idea}\n\n<b>Сайт:</b> Itera Premium SEO`;
 
             submitBtn.disabled = true;
             submitBtn.innerText = 'Отправка...';
@@ -523,14 +588,14 @@
                 });
 
                 if (response.ok) {
-                    statusMsg.innerText = '✨ Заявка отправлена! Скоро напишем.';
+                    statusMsg.innerText = '✨ Заявка успешно отправлена!';
                     statusMsg.style.color = '#4ade80';
                     form.reset();
                 } else {
                     throw new Error();
                 }
             } catch (err) {
-                statusMsg.innerText = 'Ошибка отправки. Попробуйте позже.';
+                statusMsg.innerText = 'Ошибка. Попробуйте написать в Telegram напрямую.';
                 statusMsg.style.color = '#f87171';
             } finally {
                 submitBtn.disabled = false;
